@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>分类管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body class="first-page">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<!--导航-->
+<nav class="ui inverted attached segment m-padded-tb-mini m-shadow-mini">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">管理后台</h2>
+            <a href="#" th:href="@{/admin/blogs}" class=" m-item item m-mobile-hide"><i class="mini home icon"></i>&nbsp;&nbsp;博客</a>
+            <a href="#" th:href="@{/admin/types}"  class="active m-item item m-mobile-hide"><i
+                    class="mini idea icon"></i>&nbsp;分类</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>&nbsp;&nbsp;&nbsp;标签</a>
+            <div class="right m-item m-mobile-hide menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="../../static/images/img2.jpg"   alt="" class="ui avatar image">文诚
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" class="item">注销</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle black icon button m-top-right m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="" class="item">发布</a>
+            <a href="" class="teal active item">列表</a>
+        </div>
+    </div>
+</div>
+<!--中间内容-->
+<div class="m-container-small1 m-padded-tb-big ">
+    <div class="ui container">
+        <table class="ui celled striped segment table">
+            <div class="ui success message" th:if="${not #strings.isEmpty(message)}" th:text="${message}"></div>
+            <thead>
+            <tr>
+                <th style="width: 110px !important; text-align: center">序号</th>
+                <th style="text-align: center" >名称</th>
+                <th style="text-align: center">操作</th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr th:each="type,iterStat : ${page.content}" >
+                <td th:text="${page.size}*${page.number}+${iterStat.count}" style="text-align: center ">1</td>
+                <td th:text="${type.name}" style="text-align: center">John Lilki</td>
+                <form id="formdelete" th:action="@{/admin/type/{id}(id=${type.id})}" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                </form>
+                <td style="text-align: center">
+                    <a href="#" th:href="@{/admin/type/update/{id}(id=${type.id})}" class="ui mini teal basic button">编辑</a>
+                    <a href="#" th:href="@{/admin/type/{id}(id=${type.id})}"
+                       class="ui mini red button deletebtn">删除</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3" >
+                        <div class="ui  small pagination menu" th:if="${page.totalPages}>1">
+                            <a class="item" th:href="@{/admin/types(page=0)}"
+                               th:unless="${page.first}">首页</a>
+                            <a class="item" th:href="@{/admin/types(page=${page.number}-1)}"
+                               th:unless="${page.first}">上一页</a>
+                            <a class="item" th:href="@{/admin/types(page=${page.number}+1)}"
+                               th:unless="${page.last}">下一页</a>
+                        </div>
+                        <a href="#" th:href="@{/admin/types_input(id=${page.totalPages},total=${page.totalElements})}"
+                           class="ui small right floated teal basic button">新增
+                        </a>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<br><br>
+<!--底部的footer-->
+<footer class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="two wide column">
+                <div class="ui inverted link list">
+                    <div class="item  ">
+                        <img src="../../static/images/wechat.jpg" class="ui rounded image" style="width: 110px"
+                             th:src="@{/images/wechat.jpg}">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced">最新博客</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">用户故事(User Story)</a>
+                    <a href="#" class="item">用户故事(User Story)</a>
+                    <a href="#" class="item">用户故事(User Story)</a>
+                    <a href="#" class="item">用户故事(User Story)</a>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Email:1982340133@qq.com</a>
+                    <a href="#" class="item">QQ:1982340133</a>
+                </div>
+            </div>
+            <div class="six wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced">My Blog</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这里的人有所帮助</p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny" style="margin-bottom: -30px!important;">Copyright@2019-2020
+            DesignebyHJ</p>
+    </div>
+</footer>
+<script>
+    $(function () {
+        $(".deletebtn").click(function(){
+            var href=$(this).attr("href");
+            alert(href);
+            $("#formdelete").attr("action",href).submit();
+            return false;
+        });
+    });
+    $(".menu.toggle").click(function(){
+        $(".m-item").toggleClass("m-mobile-hide");
+    });
+    $(".ui.dropdown").dropdown({
+            on: "hover"
+    });
+</script>
+</body>
+</html>
